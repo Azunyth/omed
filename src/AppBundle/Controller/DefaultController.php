@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Entity\Game;
 
 class DefaultController extends Controller
@@ -28,18 +30,22 @@ class DefaultController extends Controller
     public function aboutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
-        /*$game = new Game();
-        $game->setTitle('Crash Bandicoot');
-        $game->setReleaseAt(new \DateTime('02/03/1997'));
-        $game->setPegi(3);
+        $form = $this->createFormBuilder(new Game())
+                ->add("title")
+                ->add("releaseAt", DateType::class)
+                ->add("pegi")
+                ->add("submit", SubmitType::class, array('label' => "Ajouter"))
+                ->getForm();
 
-        $em->persist($game);
-        $em->flush();*/
+        $form->handleRequest($request);
 
-        $gameRepo = $em->getRepository("AppBundle:Game");
-        $game = $gameRepo->find(1);
+        if($request->isMethod('post')) {
+            $game = $form->getData();
+            $em->persist($game);
+            $em->flush();
+        }
 
         return $this->render('default/about.html.twig',
-                            ['game' => $game]);
+                            ['formGen' => $form->createView()]);
     }
 }

@@ -3,5 +3,16 @@
 {% block title %}AppBundle:Article:detail{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Article:detail page</h1>
+    <div>
+    <h2>{{ article.title }}</h2>
+    <p>Par {{ article.author }} le
+    {{ article.createdAt|date("d-m-Y") }}</p>
+    <hr>
+    <div>
+        {{ article.content }}
+    </div>
+    <a href="{{ path("allArticles") }}" class="btn btn-danger">
+        Retour
+    </a>
+</div>
 {% endblock %}

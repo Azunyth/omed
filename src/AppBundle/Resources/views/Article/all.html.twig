@@ -3,5 +3,20 @@
 {% block title %}AppBundle:Article:all{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Article:all page</h1>
+    <h1>Liste des articles</h1>
+
+    {% for art in articles %}
+    <div>
+        <h2>{{ art.title }}</h2>
+        <p>Par {{ art.author }} le
+        {{ art.createdAt|date("d-m-Y") }}</p>
+        <hr>
+        <div>
+            {{ art.content }}
+        </div>
+        <a href="{{ path("detailArticle", {"id": art.id}) }}" class="btn btn-primary">
+            Voir l'article
+        </a>
+    </div>
+    {% endfor %}
 {% endblock %}

@@ -1,0 +1,30 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AdminBundle:Article:list{% endblock %}
+
+{% block body %}
+    <h1>Listes des articles</h1>
+
+    <a href="{{ path("addArticle") }}" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span> Ajouter un article
+    </a>
+
+    <table class="table table-stripped">
+        <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Supprimer</th>
+        </tr>
+        {% for art in articles %}
+        <tr>
+            <td>{{ art.title }}</td>
+            <td>{{ art.author }}</td>
+            <td>
+                <a href="{{ path("deleteArticle", {'id':art.id}) }}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span> Supprimer
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
